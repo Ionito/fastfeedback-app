@@ -1,49 +1,52 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { Button, Heading, Flex } from '@chakra-ui/react'
+import { Logo } from '@/components/Icons'
+
 import { useAuth } from '../lib/auth'
 
 export default function Home() {
-    const { user, signinWithGithub, signout } = useAuth()
+    const auth = useAuth()
+
     return (
-        <div className={styles.container}>
+        <div>
             <Head>
-                <title>Create Next App</title>
-                <link rel="icon" href="/favicon.ico" />
+                <title>Fast Feedback</title>
             </Head>
 
-            <main className={styles.main}>
-                <h1 className={styles.title}>
-                    Welcome to <a href="https://nextjs.org">Next.js!</a>
-                </h1>
+            <Flex
+                as="main"
+                direction="column"
+                align="center"
+                justify="center"
+                w="100vw"
+                h="100vh"
+            >
+                <Logo boxSize="40px" />
+                <Heading fontFamily="body">Fast Feedback</Heading>
 
-                <p className={styles.description}>
-                    Get started by editing{' '}
-                    <code className={styles.code}>pages/index.js</code>
-                </p>
-
-                {!user && (
-                    <button onClick={() => signinWithGithub()}>
+                {auth.user ? (
+                    <Button
+                        as="a"
+                        href="/sites"
+                        backgroundColor="gray.900"
+                        color="white"
+                        fontWeight="medium"
+                        mt={4}
+                        maxW="200px"
+                        _hover={{ bg: 'gray.700' }}
+                        _active={{
+                            bg: 'gray.800',
+                            transform: 'scale(0.95)',
+                        }}
+                    >
+                        View Dashboard
+                    </Button>
+                ) : (
+                    <Button onClick={() => auth.signinWithGithub()}>
                         login using github
-                    </button>
+                    </Button>
                 )}
-                {user?.email}
-                {user && <button onClick={() => signout()}>singout</button>}
-            </main>
-
-            <footer className={styles.footer}>
-                <a
-                    href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Powered by{' '}
-                    <img
-                        src="/vercel.svg"
-                        alt="Vercel Logo"
-                        className={styles.logo}
-                    />
-                </a>
-            </footer>
+            </Flex>
         </div>
     )
 }

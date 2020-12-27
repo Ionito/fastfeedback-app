@@ -1,11 +1,13 @@
-import '../styles/globals.css'
-import { ProvideAuth } from '../lib/auth'
+import { AuthProvider } from '../lib/auth'
+import ChakraProvider from '../styles/chakraProvider'
 
 function MyApp({ Component, pageProps }) {
     return (
-        <ProvideAuth>
-            <Component {...pageProps} />
-        </ProvideAuth>
+        <ChakraProvider>
+            <AuthProvider>
+                <Component {...pageProps} />
+            </AuthProvider>
+        </ChakraProvider>
     )
 }
 
